@@ -14,121 +14,49 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyCheckBox(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class MyCheckBox extends StatefulWidget {
+  const MyCheckBox({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyCheckBox> createState() => _MyCheckBoxState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List<Map<String, String>> contacts = [
-    {'name': '山田花子', 'number': '070-1234-5678', 'address': '東京都'},
-    {'name': '鈴木一郎', 'number': '080-1234-5678', 'address': '神奈川'},
-    {'name': '佐藤太郎', 'number': '090-1234-5678', 'address': '横浜'},
-  ];
+class _MyCheckBoxState extends State<MyCheckBox> {
+  bool isChecked = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //Scaffold＝建物を建てる時の土台のようなもの
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView.builder(
-        itemCount: contacts.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.phone),
-            title: Text(contacts[index]['name']!),
-            subtitle: Text(contacts[index]['number']!),
-            trailing: Icon(Icons.keyboard_arrow_right),
-            onTap: () {
-              //押した時の処理
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return DetailPage(contact: contacts[index]);
-                  },
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+  void _toggleCheckbox() {
+    setState(() {
+      isChecked = !isChecked;
+    });
   }
-}
-
-class DetailPage extends StatelessWidget {
-  const DetailPage({Key? key, required this.contact}) : super(key: key);
-  final Map<String, String> contact;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${contact['name']}'),
+        title: Text('My Check Box'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(
-                  Icons.account_circle,
-                  size: 40,
-                ),
-                Text('名前 : ${contact['name']}'),
-              ],
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(
-                  Icons.phone,
-                  size: 40,
-                ),
-                Text('電話 : ${contact['number']}'),
-              ],
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 30,
-                ),
-                Icon(
-                  Icons.home,
-                  size: 40,
-                ),
-                Text('住所 : ${contact['address']}'),
-              ],
-            ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.phone, size: 30),
-                      Text('電話をかける'),
-                    ],
-                  )),
-            )
+              padding: const EdgeInsets.only(left:70),
+              child: CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text('利用規約に同意する'),
+                  value: isChecked,
+                  onChanged: (value) {
+                    _toggleCheckbox();
+                  }),
+            ),
+            Text('isChecked = ${isChecked}'),
           ],
         ),
       ),
