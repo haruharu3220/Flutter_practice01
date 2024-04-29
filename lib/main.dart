@@ -45,30 +45,34 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        scrollDirection:Axis.horizontal,
-        // alignment: Alignment.bottomRight,
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              color:Colors.blue,
-              width: 200,
-              height: 200,
-            ),
-            Container(
-              color:Colors.yellow,
-              width: 150,
-              height: 150,
-            ),
-            Container(
-              color:Colors.red,
-              width: 100,
-              height: 100,
-            ),
-          ],
-        ),
+      body:ListView(
+        children: [
+          ListTile(
+            leading: Icon(Icons.map),
+            title: Text('地図'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: (){
+              //ここにタップした時の処理
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.album),
+            title: Text('アルバム'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: (){
+              //ここにタップした時の処理
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text('電話'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: (){
+              //ここにタップした時の処理
+            },
+          ),
+        ],
+
       ),
     );
   }
