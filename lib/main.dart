@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,13 +30,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  List<Map<String, String>> contacts = [
+    {'name': '山田花子', 'number': '070-1234-5678', 'address': '東京都'},
+    {'name': '鈴木一郎', 'number': '080-1234-5678', 'address': '神奈川'},
+    {'name': '佐藤太郎', 'number': '090-1234-5678', 'address': '横浜'},
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,34 +43,48 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body:ListView(
-        children: [
-          ListTile(
-            leading: Icon(Icons.map),
-            title: Text('地図'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: (){
-              //ここにタップした時の処理
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.album),
-            title: Text('アルバム'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: (){
-              //ここにタップした時の処理
-            },
-          ),
-          ListTile(
+      body: ListView.builder(
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+          return ListTile(
             leading: Icon(Icons.phone),
-            title: Text('電話'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: (){
-              //ここにタップした時の処理
+            title: Text(contacts[index]['name']!),
+            subtitle: Text(contacts[index]['number']!),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              //押した時の処理
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return DetailPage(contact: contacts[index]);
+                  },),);
             },
-          ),
-        ],
+          );
+        },
+      ),
+    );
+  }
+}
 
+class DetailPage extends StatelessWidget {
+  const DetailPage({Key? key, required this.contact}) : super(key: key);
+  final Map<String, String> contact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${contact['name']}'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text('名前 : ${contact['name']}'),
+            Text('住所 : ${contact['address']}'),
+            ElevatedButton(onPressed: (){}, child: Text('電話をかける'))
+          ],
+        ),
       ),
     );
   }
