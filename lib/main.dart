@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -36,10 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
     {'name': '佐藤太郎', 'number': '090-1234-5678', 'address': '横浜'},
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold( //Scaffold＝建物を建てる時の土台のようなもの
+    return Scaffold(
+      //Scaffold＝建物を建てる時の土台のようなもの
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -58,7 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 MaterialPageRoute(
                   builder: (context) {
                     return DetailPage(contact: contacts[index]);
-                  },),);
+                  },
+                ),
+              );
             },
           );
         },
@@ -80,9 +81,54 @@ class DetailPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text('名前 : ${contact['name']}'),
-            Text('住所 : ${contact['address']}'),
-            ElevatedButton(onPressed: (){}, child: Text('電話をかける'))
+            Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Icon(
+                  Icons.account_circle,
+                  size: 40,
+                ),
+                Text('名前 : ${contact['name']}'),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Icon(
+                  Icons.phone,
+                  size: 40,
+                ),
+                Text('電話 : ${contact['number']}'),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Icon(
+                  Icons.home,
+                  size: 40,
+                ),
+                Text('住所 : ${contact['address']}'),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.phone, size: 30),
+                      Text('電話をかける'),
+                    ],
+                  )),
+            )
           ],
         ),
       ),
